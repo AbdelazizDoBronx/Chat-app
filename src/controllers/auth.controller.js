@@ -40,9 +40,37 @@ export const signup = async (req,res) => {
         res.status(501).json({message:"bad api request!"})
     }
 }
-export const login = (req,res) => {
-    res.send('login')
+export const login = async (req,res) => {
+    const {email,password} = req.body
+    try {
+        const user = await User.findOne({email});
+        if(!user){
+            return res.status(400).json({massage:"invalid cerditinals!"})
+        }
+        const isCorrectPassword = await bcrypt.compare(password,user.password)
+        if(!isCorrectPassword){
+            res.status(400).json({message:"invalid cerdentinals!"})
+        }
+        generateTowken(user._id,res)
+        res.status(200).json({
+            _id:user._id,
+            fullName:user.fullName,
+            email:user.email,
+            profilePic:user.profilePic
+        })
+    } catch (error) {
+        res.status(500).json({message:"server error!"})
+    }
 }
 export const logout = (req,res) => {
-    res.send('logout')
+    try {
+        res.cookie("jwt","",{maxAge:0})
+        res.status(200).json({message:"logout succesfully!"})
+    } catch (error) {
+        res.status(500).json({message:"server error!"})
+    }
+}
+
+export const updateProfile = async (req,res) => {
+    
 }
