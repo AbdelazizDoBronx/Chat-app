@@ -4,7 +4,7 @@ import {getAllActiveUsers,getUserChat,sendMessage} from '../controllers/message.
 
 
 const router = express.Router();
-router.get('/all-users',protectRoute,getAllActiveUsers)
+router.get('/users',protectRoute,getAllActiveUsers)
 router.get('/chat/:id',protectRoute,getUserChat)
 router.post('/chat/send/:id',protectRoute,sendMessage)
 
