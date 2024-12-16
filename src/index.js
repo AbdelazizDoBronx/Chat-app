@@ -5,8 +5,8 @@ import dotenv from  'dotenv';
 import { dbConnection } from './lib/db.js';
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
+import { app,server } from './lib/socket.js';
 
-const app = express();
 
 dotenv.config();
 const PORT = process.env.PORT;
@@ -20,7 +20,7 @@ app.use(cors({
 app.use(express.json({ limit: '50mb' }));  // Adjust the size limit as needed
 app.use('/api/auth',authRoutes);
 app.use('/api/messages',authMessages);
-app.listen(PORT,()=>{
+server.listen(PORT,()=>{
     console.log('listen port is from PORT : '+PORT);
     dbConnection();
 })
